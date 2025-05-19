@@ -108,106 +108,106 @@ def auto_rerun_on_file_change():
             st.experimental_set_query_params(music_mtime=mtime)
 
 # --- Spotify helper functions ---
-def get_spotify_token():
-    resp = requests.post(
-        "https://accounts.spotify.com/api/token",
-        data={"grant_type": "client_credentials"},
-        auth=(spotify_client_id, spotify_client_secret)
-    )
-    if resp.status_code != 200:
-        return None
-    return resp.json().get("access_token")
+# def get_spotify_token():
+#     resp = requests.post(
+#         "https://accounts.spotify.com/api/token",
+#         data={"grant_type": "client_credentials"},
+#         auth=(spotify_client_id, spotify_client_secret)
+#     )
+#     if resp.status_code != 200:
+#         return None
+#     return resp.json().get("access_token")
 
-def extract_playlist_id(url):
-    return url.rstrip("/").split("/")[-1].split("?")[0]
+# def extract_playlist_id(url):
+#     return url.rstrip("/").split("/")[-1].split("?")[0]
 
-def get_playlist_tracks(token, pid):
-    headers = {"Authorization": f"Bearer {token}"}
-    url = f"https://api.spotify.com/v1/playlists/{pid}/tracks"
-    items = []
-    while url:
-        r = requests.get(url, headers=headers)
-        if r.status_code != 200:
-            st.error(f"獲取播放列表失敗: {r.text}")
-            return []
-        data = r.json()
-        items.extend(data["items"])
-        url = data.get("next")
-    return items
+# def get_playlist_tracks(token, pid):
+#     headers = {"Authorization": f"Bearer {token}"}
+#     url = f"https://api.spotify.com/v1/playlists/{pid}/tracks"
+#     items = []
+#     while url:
+#         r = requests.get(url, headers=headers)
+#         if r.status_code != 200:
+#             st.error(f"獲取播放列表失敗: {r.text}")
+#             return []
+#         data = r.json()
+#         items.extend(data["items"])
+#         url = data.get("next")
+#     return items
 
-def get_playlist_details(token, pid):
-    headers = {"Authorization": f"Bearer {token}"}
-    r = requests.get(f"https://api.spotify.com/v1/playlists/{pid}", headers=headers)
-    if r.status_code != 200:
-        st.error(f"獲取播放列表詳情失敗: {r.text}")
-        return {}
-    return r.json()
+# def get_playlist_details(token, pid):
+#     headers = {"Authorization": f"Bearer {token}"}
+#     r = requests.get(f"https://api.spotify.com/v1/playlists/{pid}", headers=headers)
+#     if r.status_code != 200:
+#         st.error(f"獲取播放列表詳情失敗: {r.text}")
+#         return {}
+#     return r.json()
 
-def get_lyrics(artist, title):
-    a = artist.strip().lower().replace(" ", "%20")
-    t = title.strip().lower().replace(" ", "%20")
-    try:
-        r = requests.get(f"https://api.lyrics.ovh/v1/{a}/{t}", timeout=5)
-        if r.status_code == 200:
-            return r.json().get("lyrics") or "Lyrics not found"
-    except Exception as e:
-        st.warning(f"獲取歌詞失敗: {str(e)}")
-    return "Lyrics not found"
+# def get_lyrics(artist, title):
+#     a = artist.strip().lower().replace(" ", "%20")
+#     t = title.strip().lower().replace(" ", "%20")
+#     try:
+#         r = requests.get(f"https://api.lyrics.ovh/v1/{a}/{t}", timeout=5)
+#         if r.status_code == 200:
+#             return r.json().get("lyrics") or "Lyrics not found"
+#     except Exception as e:
+#         st.warning(f"獲取歌詞失敗: {str(e)}")
+#     return "Lyrics not found"
 
 # --- Visualization helpers ---
-def generate_wordcloud(text):
-    return WordCloud(width=400, height=200, background_color="white", max_words=100).generate(text)
+# def generate_wordcloud(text):
+#     return WordCloud(width=400, height=200, background_color="white", max_words=100).generate(text)
 
-def compute_sentiment_scores(lyrics):
-    blob = TextBlob(lyrics)
-    p, s = blob.sentiment.polarity, blob.sentiment.subjectivity
-    mood = {"joy":0,"sadness":0,"anger":0,"fear":0,"love":0,"surprise":0}
-    if p >= 0.4:
-        mood["joy"] += 1
-        if s > 0.6: mood["love"] += 1
-    elif p <= -0.4:
-        mood["sadness"] += 1
-        if s > 0.5: mood["anger"] += 1
-    else:
-        if s < 0.3: mood["fear"] += 1
-        elif s > 0.6: mood["surprise"] += 1
-    return mood
+# def compute_sentiment_scores(lyrics):
+#     blob = TextBlob(lyrics)
+#     p, s = blob.sentiment.polarity, blob.sentiment.subjectivity
+#     mood = {"joy":0,"sadness":0,"anger":0,"fear":0,"love":0,"surprise":0}
+#     if p >= 0.4:
+#         mood["joy"] += 1
+#         if s > 0.6: mood["love"] += 1
+#     elif p <= -0.4:
+#         mood["sadness"] += 1
+#         if s > 0.5: mood["anger"] += 1
+#     else:
+#         if s < 0.3: mood["fear"] += 1
+#         elif s > 0.6: mood["surprise"] += 1
+#     return mood
 
-def plot_mood_radar(mood):
-    labels = list(mood.keys())
-    values = list(mood.values())
-    angles = np.linspace(0, 2*np.pi, len(labels), endpoint=False).tolist()
-    values += values[:1]; angles += angles[:1]
-    fig, ax = plt.subplots(figsize=(3,2), subplot_kw={"polar": True})
-    ax.plot(angles, values, linewidth=2)
-    ax.fill(angles, values, alpha=0.3)
-    ax.set_xticks(angles[:-1]); ax.set_xticklabels(labels)
-    ax.set_yticklabels([])
-    return fig
+# def plot_mood_radar(mood):
+#     labels = list(mood.keys())
+#     values = list(mood.values())
+#     angles = np.linspace(0, 2*np.pi, len(labels), endpoint=False).tolist()
+#     values += values[:1]; angles += angles[:1]
+#     fig, ax = plt.subplots(figsize=(3,2), subplot_kw={"polar": True})
+#     ax.plot(angles, values, linewidth=2)
+#     ax.fill(angles, values, alpha=0.3)
+#     ax.set_xticks(angles[:-1]); ax.set_xticklabels(labels)
+#     ax.set_yticklabels([])
+#     return fig
 
 # --- Gemini AI helper ---
-def analyze_with_gemini(lyrics, track_info):
-    try:
-        model = genai.GenerativeModel('gemini-pro')
-        prompt = f"""
-        分析以下歌曲的歌詞並提供洞見:
+# def analyze_with_gemini(lyrics, track_info):
+#     try:
+#         model = genai.GenerativeModel('gemini-pro')
+#         prompt = f"""
+#         分析以下歌曲的歌詞並提供洞見:
         
-        曲目: {track_info['title']}
-        藝術家: {track_info['artist']}
+#         曲目: {track_info['title']}
+#         藝術家: {track_info['artist']}
         
-        歌詞:
-        {lyrics}
+#         歌詞:
+#         {lyrics}
         
-        請提供:
-        1. 歌詞的主要主題和情感
-        2. 作者可能想傳達的訊息
-        3. 3-5個關鍵詞來概括這首歌
-        """
+#         請提供:
+#         1. 歌詞的主要主題和情感
+#         2. 作者可能想傳達的訊息
+#         3. 3-5個關鍵詞來概括這首歌
+#         """
         
-        response = model.generate_content(prompt)
-        return response.text
-    except Exception as e:
-        return f"Gemini分析失敗: {str(e)}"
+#         response = model.generate_content(prompt)
+#         return response.text
+#     except Exception as e:
+#         return f"Gemini分析失敗: {str(e)}"
 
 # --- Main Streamlit App ---
 def main():
@@ -421,7 +421,7 @@ def main():
                         songs_with_lyrics = [t for t in tracks_with_lyrics if t["lyrics"] != "Lyrics not found"]
                         if songs_with_lyrics:
                             selected_song = st.selectbox(
-                                "選擇要分析的歌曲",
+                                "選擇要分析的歌曲........",
                                 options=range(len(songs_with_lyrics)),
                                 format_func=lambda i: f"{songs_with_lyrics[i]['artist']} - {songs_with_lyrics[i]['title']}"
                             )
