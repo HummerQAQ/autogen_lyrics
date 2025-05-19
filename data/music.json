@@ -1,0 +1,40 @@
+{
+  "code": 200,
+  "data": {
+    "callbackType": "complete",
+    "data": [
+      {
+        "audio_url": "https://apiboxfiles.erweima.ai/NTY4M2VlMDktMDYwYi00Y2ZiLTk4MWMtYTExYTU1NWRlYjY4.mp3",
+        "createTime": 1747680541226,
+        "duration": 141.0,
+        "id": "5683ee09-060b-4cfb-981c-a11a555deb68",
+        "image_url": "https://apiboxfiles.erweima.ai/NTY4M2VlMDktMDYwYi00Y2ZiLTk4MWMtYTExYTU1NWRlYjY4.jpeg",
+        "model_name": "chirp-v3-5",
+        "prompt": "",
+        "source_audio_url": "https://cdn1.suno.ai/5683ee09-060b-4cfb-981c-a11a555deb68.mp3",
+        "source_image_url": "https://cdn2.suno.ai/image_5683ee09-060b-4cfb-981c-a11a555deb68.jpeg",
+        "source_stream_audio_url": "https://cdn1.suno.ai/5683ee09-060b-4cfb-981c-a11a555deb68.mp3",
+        "stream_audio_url": "https://mfile.erweima.ai/NTY4M2VlMDktMDYwYi00Y2ZiLTk4MWMtYTExYTU1NWRlYjY4",
+        "tags": "electro",
+        "title": "nono"
+      },
+      {
+        "audio_url": "https://apiboxfiles.erweima.ai/YTg0NDMxMDMtNDEyMC00ZWFjLWE5OTYtODBlNmQ1NzJlZWM3.mp3",
+        "createTime": 1747680541226,
+        "duration": 240.0,
+        "id": "a8443103-4120-4eac-a996-80e6d572eec7",
+        "image_url": "https://apiboxfiles.erweima.ai/YTg0NDMxMDMtNDEyMC00ZWFjLWE5OTYtODBlNmQ1NzJlZWM3.jpeg",
+        "model_name": "chirp-v3-5",
+        "prompt": "",
+        "source_audio_url": "https://cdn1.suno.ai/a8443103-4120-4eac-a996-80e6d572eec7.mp3",
+        "source_image_url": "https://cdn2.suno.ai/image_a8443103-4120-4eac-a996-80e6d572eec7.jpeg",
+        "source_stream_audio_url": "https://cdn1.suno.ai/a8443103-4120-4eac-a996-80e6d572eec7.mp3",
+        "stream_audio_url": "https://mfile.erweima.ai/YTg0NDMxMDMtNDEyMC00ZWFjLWE5OTYtODBlNmQ1NzJlZWM3",
+        "tags": "electro",
+        "title": "nono"
+      }
+    ],
+    "task_id": "e1082c879a36abfc6b5658511570f445"
+  },
+  "msg": "All generated successfully."
+}

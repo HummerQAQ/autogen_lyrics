@@ -19,49 +19,28 @@ st.set_page_config(page_title="Spotify Lyrics Analyzer with Autogen", layout="wi
 st.title("🎵 Lyrics Analyzer with Autogen")
 st.markdown("Analyze lyrics from Spotify playlists using Autogen agents!")
 
+spotify_client_id = "b9e0979d54c449d4a1b7f23a1be1d329"
+spotify_client_secret = "03559d2dc6b643e8af412d5930ee4ec2"
+gemini_api_key = "AIzaSyBT-j55lWkh5Mz9_RrSwpCaaagDPcCDjpI"
+
 # Sidebar for settings
 with st.sidebar:
     st.header("Settings")
-    selected_lang = st.selectbox("Language", ["English", "繁體中文"], index=0)
-    
-    # API Keys
-    with st.expander("API Configuration"):
-        spotify_client_id = st.text_input("Spotify Client ID", value="b9e0979d54c449d4a1b7f23a1be1d329", type="password")
-        spotify_client_secret = st.text_input("Spotify Client Secret", value="03559d2dc6b643e8af412d5930ee4ec2", type="password")
-        gemini_api_key = st.text_input("Gemini API Key", value="AIzaSyBT-j55lWkh5Mz9_RrSwpCaaagDPcCDjpI", type="password")
-        
-        if st.button("Save API Keys"):
-            st.success("API keys saved!")
-            
-            # Save Gemini API key to config file
-            if gemini_api_key:
-                config = {
-                    "config_list": [
-                        {
-                            "model": "gemini-2.0-flash-lite",
-                            "api_key": gemini_api_key,
-                            "base_url": "https://generativelanguage.googleapis.com/v1beta/"
-                        }
-                    ]
-                }
-                
-                with open("config.json", "w") as f:
-                    json.dump(config, f, indent=4)
+    st.write("Spotify Client ID: [已設定]")
+    st.write("Spotify Client Secret: [已設定]")
+    st.write("Gemini API Key: [已設定]")
 
 # Function to get Spotify access token
 def get_spotify_token(client_id, client_secret):
     auth_url = "https://accounts.spotify.com/api/token"
-    auth_response = requests.post(
-        auth_url,
-        data={"grant_type": "client_credentials"},
-        auth=(client_id, client_secret)
-    )
+    resp = requests.post(auth_url, data={"grant_type":"client_credentials"}, auth=(client_id, client_secret))
     
-    if auth_response.status_code != 200:
-        st.error(f"Failed to get Spotify token: {auth_response.text}")
+    if resp.status_code != 200:
+        st.error(f"Failed to get Spotify token: {resp.text}")
         return None
-        
-    return auth_response.json().get("access_token")
+    
+    return resp.json().get('access_token')
+
 
 # Function to extract playlist ID from URL
 def extract_playlist_id(playlist_url):
